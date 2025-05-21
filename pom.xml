@@ -7,7 +7,7 @@
     <groupId>org.example</groupId>
     <artifactId>webtablesAutomatin</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+    <!-- java 21 version -->
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>

@@ -40,9 +40,10 @@ public class webTablePageTest {
     @Test
     @Order(2)
     public void editSalaryTest() {
-        webPage.searchRecord("kierra@example.com");
+
         webPage.editSalary("kierra@example.com", "99999");
         String updatedSalary = webPage.getSalaryByEmail("kierra@example.com");
+        System.out.println(updatedSalary);
         assertEquals("99999", updatedSalary);
     }
 

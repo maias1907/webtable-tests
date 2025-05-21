@@ -26,7 +26,9 @@ public class webTablePage {
 
     public void addNewRecord(String firstName, String lastName, String age, String salary, String email, String department) {
         scrollToTable();
-        driver.findElement(addNewRecordButton).click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(addNewRecordButton));
+        addButton.click();
 
         driver.findElement(firstNameInput).sendKeys(firstName);
         driver.findElement(lastNameInput).sendKeys(lastName);
@@ -92,6 +94,8 @@ public class webTablePage {
 
     public String getSalaryByEmail(String email) {
         scrollToTable();
+        new WebDriverWait(driver, Duration.ofSeconds(20))
+                .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.rt-tr-group")));
         List<WebElement> rows = driver.findElements(By.cssSelector("div.rt-tr-group"));
         for (WebElement row : rows) {
             if (row.getText().contains(email)) {
