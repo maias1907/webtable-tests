@@ -1,5 +1,5 @@
 
-package org.recordsTable;
+package org.recordsTableLocators;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.*;
 import java.time.Duration;
 import java.util.List;
 
-public class webTablePage {
+public class WebTablePage {
     private WebDriver driver;
     private By addNewRecordButton = By.id("addNewRecordButton");
     private By firstNameInput = By.id("firstName");
@@ -20,11 +20,16 @@ public class webTablePage {
     private By submitButton = By.id("submit");
     private By searchBox = By.id("searchBox");
 
-    public webTablePage(WebDriver driver) {
+    public WebTablePage(WebDriver driver) {
         this.driver = driver;
     }
 
-    public void addNewRecord(String firstName, String lastName, String age, String salary, String email, String department) {
+    public boolean addNewRecord(String firstName, String lastName, String age, String salary, String email, String department) {
+        // Basic input validation before adding
+        if (firstName == null || firstName.trim().isEmpty()) return false;
+        if (email == null || email.trim().isEmpty() || !email.contains("@")) return false;
+        if (age != null && !age.matches("\\d+")) return false; // age should be digits only
+        if (salary != null && !salary.matches("\\d+")) return false; // salary should be digits only
         scrollToTable();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(addNewRecordButton));
@@ -37,6 +42,16 @@ public class webTablePage {
         driver.findElement(salaryInput).sendKeys(salary);
         driver.findElement(departmentInput).sendKeys(department);
         driver.findElement(submitButton).click();
+        // Wait a little or use explicit wait to ensure table updates
+        try {
+            Thread.sleep(1000); // or better use wait for element presence or invisibility of modal
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Verify the record appears in the table by email (assuming email unique)
+        scrollToTable();
+        return isEmailPresent(email);
     }
     public boolean isPadRow(WebElement row) {
         String classAttr = row.getAttribute("class");
@@ -44,26 +59,41 @@ public class webTablePage {
     }
 
     public boolean searchRecord(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            return false;
+        }
+
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement searchInput = wait.until(ExpectedConditions.visibilityOfElementLocated(searchBox));
         searchInput.clear();
         searchInput.sendKeys(query);
         scrollToTable();
+
         List<WebElement> rows = driver.findElements(By.cssSelector("div.rt-tr-group"));
+
+        // If the table shows a "No rows found" message, return false
+        boolean foundMatchingRow = false;
+
         for (WebElement row : rows) {
-           WebElement row2Check= row.findElement(By.cssSelector("div.rt-tr"));
-            if (isPadRow(row2Check)) break;
-            System.out.println(row.getText().toLowerCase().contains(query.toLowerCase()));
-            if (!row.getText().toLowerCase().contains(query.toLowerCase())  ) {
-                return false;
+            WebElement actualRow = row.findElement(By.cssSelector("div.rt-tr"));
+            if (isPadRow(actualRow)) break;
+
+            String rowText = row.getText().toLowerCase();
+            if (rowText.contains(query.toLowerCase())) {
+                foundMatchingRow = true;
+                break;
             }
         }
 
-        return true;
+        return foundMatchingRow;
     }
 
 
-    public void editSalary(String email, String newSalary) {
+    public boolean editSalary(String email, String newSalary) {
+        if (newSalary == null || !newSalary.matches("\\d+")) {
+            return false;
+        }
+
         scrollToTable();
         List<WebElement> rows = driver.findElements(By.cssSelector("div.rt-tr-group"));
         for (WebElement row : rows) {
@@ -73,9 +103,22 @@ public class webTablePage {
                 salaryField.clear();
                 salaryField.sendKeys(newSalary);
                 driver.findElement(submitButton).click();
-                break;
+
+                // Small wait to allow UI to update
+                try {
+                    Thread.sleep(500); // replace with explicit wait if needed
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                // Verify salary updated
+                String updatedSalary = getSalaryByEmail(email);
+                return newSalary.equals(updatedSalary);
             }
         }
+
+        // Email not found in any row
+        return false;
     }
 
     public void deleteRecord(String email) {
