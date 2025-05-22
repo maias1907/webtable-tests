@@ -3,8 +3,9 @@ package UITests;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.example.recordsTableLocators.WebTablePage;
+import org.openqa.selenium.chrome.ChromeDriver;
 
-import static org.example.Utils.DriverFactory.getDriver;
+//import static org.example.Utils.DriverFactory.getDriver;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -16,7 +17,8 @@ public class WebTablePageUITest {
 
     @BeforeEach
     public void setup() {
-        driver= getDriver();
+        //driver= getDriver();
+        driver=new ChromeDriver();
         webPage = new WebTablePage(driver);
         driver.manage().window().maximize();
         driver.get(baseURL);
