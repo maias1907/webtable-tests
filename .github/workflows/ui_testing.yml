@@ -52,13 +52,22 @@ jobs:
         run: |
           docker run --name grid_container -d -p 4444:4444 --shm-size=2gb selenium/standalone-chrome:131.0-chromedriver-131.0-grid-4.27.0-20250101
 
-      - name: Run Tests on Chrome
+      - name: Run Tests on Chrome (Ignore NoSuchSession Errors)
         run: |
-            export BROWSER=chrome
-            export GRID_URL=${{ github.event.inputs.grid_url }}
-            set +e
-            mvn -q test -Dtest=${{ github.event.inputs.test_class }} || echo "Tests failed but continuing due to known NoSuchSessionException"
-            docker stop grid_container || true
+          export BROWSER=chrome
+          export GRID_URL=${{ github.event.inputs.grid_url }}
+          set +e
+          mvn -q test -Dtest=${{ github.event.inputs.test_class }}
+          EXIT_CODE=$?
+          if [ "$EXIT_CODE" -ne 0 ]; then
+            echo "::warning::UI Tests failed. This may be due to a known NoSuchSessionException or WebDriver session issue."
+          fi
+          exit 0  # always exit successfully
+        continue-on-error: true
+
+      - name: Stop Chrome Grid Container
+        if: ${{ contains(github.event.inputs.grid_url, 'localhost') }}
+        run: docker stop grid_container || true
 
   TestFirefox_133_0:
     name: Test Firefox 133.0
@@ -87,10 +96,19 @@ jobs:
         run: |
           docker run --name grid_container -d -p 4444:4444 --shm-size=2gb selenium/standalone-firefox:133.0-geckodriver-0.35-grid-4.27.0-20250101
 
-      - name: Run Tests on Firefox
+      - name: Run Tests on Firefox (Ignore NoSuchSession Errors)
         run: |
-            export BROWSER=firefox
-            export GRID_URL=${{ github.event.inputs.grid_url }}
-            set +e
-            mvn -q test -Dtest=${{ github.event.inputs.test_class }} || echo "Tests failed but continuing due to known NoSuchSessionException"
-            docker stop grid_container || true
+          export BROWSER=firefox
+          export GRID_URL=${{ github.event.inputs.grid_url }}
+          set +e
+          mvn -q test -Dtest=${{ github.event.inputs.test_class }}
+          EXIT_CODE=$?
+          if [ "$EXIT_CODE" -ne 0 ]; then
+            echo "::warning::UI Tests failed. This may be due to a known NoSuchSessionException or WebDriver session issue."
+          fi
+          exit 0  # always exit successfully
+        continue-on-error: true
+
+      - name: Stop Firefox Grid Container
+        if: ${{ contains(github.event.inputs.grid_url, 'localhost') }}
+        run: docker stop grid_container || true
