@@ -1,6 +1,5 @@
 package UITests;
 
-import org.example.Utils.DriverFactory;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.example.recordsTableLocators.WebTablePage;
@@ -100,7 +99,7 @@ public class WebTablePageUITest {
 
     @AfterEach
     public void teardown() {
-        DriverFactory.quitDriver();
+        driver.quit();
     }
 }
 
