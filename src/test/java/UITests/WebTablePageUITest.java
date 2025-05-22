@@ -8,7 +8,7 @@ import static org.example.Utils.DriverFactory.getDriver;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class WebTablePageTest {
+public class WebTablePageUITest {
 
     private WebDriver driver;
     private WebTablePage webPage;

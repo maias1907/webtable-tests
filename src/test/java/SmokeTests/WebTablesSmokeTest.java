@@ -1,6 +1,5 @@
-package UITests;
+package SmokeTests;
 
-import org.example.Utils.DriverFactory;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 
