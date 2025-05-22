@@ -9,6 +9,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 
 //import static org.example.Utils.DriverFactory.getDriver;
+import java.io.IOException;
+import java.nio.file.Files;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -19,14 +22,24 @@ public class WebTablesSmokeTest {
 
 
     @BeforeEach
-    public void setUp() {
-        ChromeOptions options = new ChromeOptions();
+    public void setUp() throws IOException {
+       /* ChromeOptions options = new ChromeOptions();
 
         // IMPORTANT: Remove any line that sets --user-data-dir or do not add this option at all
-         options.addArguments("--user-data-dir=/some/path");  // <-- Remove this line to fix the error
+        // options.addArguments("--user-data-dir=/some/path");  // <-- Remove this line to fix the error
 
         driver = new ChromeDriver(options);
         //driver=new ChromeDriver();
+        page = new WebTablePage(driver);
+        driver.manage().window().maximize();
+        driver.get(baseURL);*/
+        ChromeOptions options = new ChromeOptions();
+
+        // Use a temp directory for Chrome user data to avoid session collisions
+        String tempProfile = Files.createTempDirectory("chrome-profile-").toString();
+        options.addArguments("--user-data-dir=" + tempProfile);
+
+        driver = new ChromeDriver(options);
         page = new WebTablePage(driver);
         driver.manage().window().maximize();
         driver.get(baseURL);
