@@ -15,8 +15,14 @@ jobs:
       # Kill any leftover Chrome or chromedriver processes
       - name: Kill Chrome processes before tests
         run: |
-         pkill -f chrome || true
-         pkill -f chromedriver || true
+          pkill -f chrome || true
+          pkill -f chromedriver || true
+
+      # Clean leftover Chrome user data directories
+      - name: Clean Chrome user data directories
+        run: |
+          rm -rf /tmp/.com.google.Chrome*
+          rm -rf /tmp/.org.chromium.Chromium*
 
       # Step 2: Set up JDK 21
       - name: Set up JDK 21
@@ -25,9 +31,6 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-
-      # Step 4: Run API Tests
+      # Step 3: Run API Tests
       - name: Run API Tests
-
-        run: |
-          mvn -q clean test -Dtest=**/APITests/*
+        run: mvn -q clean test -Dtest=**/APITests/*
