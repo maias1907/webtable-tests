@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 
 import org.example.recordsTableLocators.WebTablePage;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 
 //import static org.example.Utils.DriverFactory.getDriver;
@@ -19,7 +20,13 @@ public class WebTablesSmokeTest {
 
     @BeforeEach
     public void setUp() {
-        driver=new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+
+        // IMPORTANT: Remove any line that sets --user-data-dir or do not add this option at all
+        // options.addArguments("--user-data-dir=/some/path");  // <-- Remove this line to fix the error
+
+        driver = new ChromeDriver(options);
+        //driver=new ChromeDriver();
         page = new WebTablePage(driver);
         driver.manage().window().maximize();
         driver.get(baseURL);
