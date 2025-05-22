@@ -19,6 +19,11 @@ on:
         required: false
         type: boolean
 
+      test_class:
+        description: 'Test Class to Run'
+        required: true
+        default: WebTablePageUITest
+
 jobs:
   TestChrome_131_0:
     name: Test Chrome 131.0
@@ -34,20 +39,28 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
       - name: Launch standalone grid - Chrome
         if: ${{ contains(github.event.inputs.grid_url, 'localhost') }}
         run: |
           docker run --name grid_container -d -p 4444:4444 --shm-size=2gb selenium/standalone-chrome:131.0-chromedriver-131.0-grid-4.27.0-20250101
 
-      - name: Run Tests
+      - name: Run Tests on Chrome
         run: |
           export BROWSER=chrome
           export GRID_URL=${{ github.event.inputs.grid_url }}
-
-          mvn -q test -Dtest=WebTablePageUITest
-
-          # Tear down grid if exists
+          set +e
+          mvn -q test -Dtest=${{ github.event.inputs.test_class }}
+          TEST_EXIT_CODE=$?
           docker stop grid_container || true
+          exit $TEST_EXIT_CODE
 
   TestFirefox_133_0:
     name: Test Firefox 133.0
@@ -63,17 +76,25 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
       - name: Launch standalone grid - Firefox
         if: ${{ contains(github.event.inputs.grid_url, 'localhost') }}
         run: |
           docker run --name grid_container -d -p 4444:4444 --shm-size=2gb selenium/standalone-firefox:133.0-geckodriver-0.35-grid-4.27.0-20250101
 
-      - name: Run Tests
+      - name: Run Tests on Firefox
         run: |
           export BROWSER=firefox
           export GRID_URL=${{ github.event.inputs.grid_url }}
-
-          mvn test -Dtest=WebTablePageUITest
-
-          # Tear down grid if exists
+          set +e
+          mvn -q test -Dtest=${{ github.event.inputs.test_class }}
+          TEST_EXIT_CODE=$?
           docker stop grid_container || true
+          exit $TEST_EXIT_CODE

@@ -18,7 +18,6 @@ public class WebTablePageUITest {
     @BeforeEach
     public void setup() {
         driver= getDriver();
-
         webPage = new WebTablePage(driver);
         driver.manage().window().maximize();
         driver.get(baseURL);
