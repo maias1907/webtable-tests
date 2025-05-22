@@ -37,34 +37,46 @@ public class DriverFactory {
             return getLocalDriver(browser);
         }*/
 
-            if (driver == null) {
-                try {
-                     browser = System.getenv("BROWSER");
-                    String gridUrl = System.getenv("GRID_URL");
+        if (driver == null) {
+            try {
+                browser = System.getenv("BROWSER");
+                String gridUrl = System.getenv("GRID_URL");
 
-                    if (browser == null || gridUrl == null) {
-                        throw new RuntimeException("BROWSER or GRID_URL environment variable not set");
-                    }
-
-                    URL url = new URL(gridUrl);
-
-                    if (browser.equalsIgnoreCase("chrome")) {
-                        ChromeOptions options = new ChromeOptions();
-                        driver = new RemoteWebDriver(url, options);
-                    } else if (browser.equalsIgnoreCase("firefox")) {
-                        FirefoxOptions options = new FirefoxOptions();
-                        driver = new RemoteWebDriver(url, options);
-                    } else {
-                        throw new RuntimeException("Unsupported browser: " + browser);
-                    }
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException("Invalid Grid URL");
+                if (browser == null || gridUrl == null) {
+                    throw new RuntimeException("Missing BROWSER or GRID_URL environment variable");
                 }
+
+                URL url = new URL(gridUrl);
+
+                switch (browser.toLowerCase()) {
+                    case "chrome":
+                        ChromeOptions chromeOptions = new ChromeOptions();
+                        driver = new RemoteWebDriver(url, chromeOptions);
+                        break;
+
+                    case "firefox":
+                        FirefoxOptions firefoxOptions = new FirefoxOptions();
+                        driver = new RemoteWebDriver(url, firefoxOptions);
+                        break;
+
+                    default:
+                        throw new RuntimeException("Unsupported browser: " + browser);
+                }
+
+            } catch (MalformedURLException e) {
+                throw new RuntimeException("Invalid GRID_URL", e);
             }
-            return driver;
         }
+
+        return driver;
+    }
+
+    public static void quitDriver() {
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
+    }
 
 
     private static WebDriver getLocalDriver(String browser) {
