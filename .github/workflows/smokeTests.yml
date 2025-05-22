@@ -3,7 +3,7 @@ name: WebTable Smoke Tests
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   Test:
