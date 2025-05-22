@@ -47,7 +47,7 @@ public class WebTablesSmokeTest {
         assertTrue(driver.getTitle().contains("ToolsQA") || driver.getCurrentUrl().contains("webtables"));
     }
 
-  /* @Test
+    @Test
     @Order(2)
     public void testAddNewRecordFormOpens() {
         assertDoesNotThrow(() -> page.addNewRecord("Test", "User", "29", "2900", "smoke@test.com", "Smoke"));
@@ -67,5 +67,5 @@ public class WebTablesSmokeTest {
         page.deleteRecord("kierra@example.com");
         page.searchRecord("kierra@example.com");
         assertFalse(page.isEmailPresent("kierra@example.com"));
-    }*/
+    }
 }
