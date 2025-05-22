@@ -23,7 +23,7 @@ public class WebTablesSmokeTest {
         ChromeOptions options = new ChromeOptions();
 
         // IMPORTANT: Remove any line that sets --user-data-dir or do not add this option at all
-        // options.addArguments("--user-data-dir=/some/path");  // <-- Remove this line to fix the error
+         options.addArguments("--user-data-dir=/some/path");  // <-- Remove this line to fix the error
 
         driver = new ChromeDriver(options);
         //driver=new ChromeDriver();
