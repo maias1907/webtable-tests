@@ -1,5 +1,5 @@
 
-package org.recordsTableLocators;
+package org.example.recordsTableLocators;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -31,7 +31,7 @@ public class WebTablePage {
         if (age != null && !age.matches("\\d+")) return false; // age should be digits only
         if (salary != null && !salary.matches("\\d+")) return false; // salary should be digits only
         scrollToTable();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(addNewRecordButton));
         addButton.click();
 

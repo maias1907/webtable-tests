@@ -2,7 +2,7 @@ package UITests;
 
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
-import org.recordsTableLocators.WebTablePage;
+import org.example.recordsTableLocators.WebTablePage;
 
 import static org.example.Utils.DriverFactory.getDriver;
 import static org.junit.jupiter.api.Assertions.*;

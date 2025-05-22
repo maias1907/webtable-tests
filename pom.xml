@@ -49,6 +49,7 @@
             <version>3.1.3</version> <!-- Match the Spring Boot version -->
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
@@ -60,4 +61,5 @@
 
 
     </dependencies>
+
 </project>

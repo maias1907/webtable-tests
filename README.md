@@ -139,4 +139,20 @@ Testing will be considered complete when the following conditions are met:
 3. **Run tests with Maven**
    ```bash 
       mvn test
+
+
+## 📊 How to Open Allure Report
+
+Make sure to run your tests first so that Allure can generate the result files:
+
+1. **Run Your Tests**
+   ```bash
+   mvn clean compile
+2. **Generate  the Report**
+   ```bash
+   allure generate
+3. **Open the report**
+   ```bash 
+      allure open
+
    
