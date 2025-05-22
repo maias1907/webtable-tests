@@ -1,4 +1,4 @@
-/*package org.example.Utils;
+package org.example.Utils;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -31,23 +31,10 @@ public class DriverFactory {
     }
 
     private static WebDriver getRemoteDriver(String browser) {
-        URL hubUrl;
-        try {
-            hubUrl = new URI(grid_url).toURL();
-        } catch (URISyntaxException | MalformedURLException err) {
-            throw new IllegalArgumentException("Invalid grid URL");
-        }
-
-        if (browser.equalsIgnoreCase("chrome")) {
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
-            return new RemoteWebDriver(hubUrl, options);
-        } else if (browser.equalsIgnoreCase("firefox")) {
-            FirefoxOptions options = new FirefoxOptions();
-            options.addArguments("-headless");
-            return new RemoteWebDriver(hubUrl, options);
+        if (grid_url != null) {
+            return getRemoteDriver(browser);
         } else {
-            throw new IllegalArgumentException("Unsupported browser: " + browser);
+            return getLocalDriver(browser);
         }
     }
 
@@ -60,4 +47,4 @@ public class DriverFactory {
             throw new IllegalArgumentException("Unsupported browser: " + browser);
         }
     }
-}*/
+}

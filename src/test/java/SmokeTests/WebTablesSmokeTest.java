@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 
-//import static org.example.Utils.DriverFactory.getDriver;
+import static org.example.Utils.DriverFactory.getDriver;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.Duration;
@@ -26,7 +26,7 @@ public class WebTablesSmokeTest {
     public void setUp() throws IOException {
 
 
-        driver = new ChromeDriver();
+        driver =getDriver();
 
         page = new WebTablePage(driver);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
