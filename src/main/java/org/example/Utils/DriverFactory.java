@@ -22,11 +22,24 @@ public class DriverFactory {
             .orElse("chrome");
 
     public static WebDriver getDriver() {
-        if (grid_url != null) {
+       /* if (grid_url != null) {
             return getRemoteDriver(browser);
         } else {
             return getLocalDriver(browser);
-        }
+        }*/
+        ChromeOptions options = new ChromeOptions();
+
+        // Essential arguments for GitHub Actions / Linux CI
+        options.addArguments("--headless=new");  // or "--headless"
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--remote-allow-origins=*");
+        // Use a unique temp user data dir to avoid "already in use" error:
+        options.addArguments("--user-data-dir=/tmp/chrome-user-data-" + System.currentTimeMillis());
+
+        return new ChromeDriver(options);
     }
 
     private static WebDriver getRemoteDriver(String browser) {
