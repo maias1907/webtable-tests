@@ -22,10 +22,14 @@ jobs:
 
       - name: Install Chrome & Chromedriver
         run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable chromium-chromedriver
-          sudo ln -sf /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
-          google-chrome --version
+            sudo apt-get update
+            sudo apt-get install -y google-chrome-stable chromium-chromedriver
+
+            if [ ! -e /usr/bin/chromedriver ]; then
+              sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
+            fi
+
+            google-chrome --versionome --version
 
       - name: Run WebTablesSmokeTest (Ignore SessionNotCreated)
         run: |
