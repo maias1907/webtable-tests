@@ -3,14 +3,11 @@ package SmokeTests;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 
-import org.example.recordsTableLocators.WebTablePage;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.example.Pages.WebTablePage;
 
 
 import static org.example.Utils.DriverFactory.getDriver;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;

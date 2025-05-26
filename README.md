@@ -3,7 +3,37 @@
 This project contains automated UI tests for the WebTables page using Selenium WebDriver, Maven, and JUnit 5.
 
 ---
+## Project Structure (POM – Page Object Model)
 
+``` bash
+📁 project-root/
+│
+├── 📁 src/
+│   ├── 📁 main/
+│   │   └── 📁 java/
+│   │       └── org/
+│   │           └── example/
+│   │               ├── 📁 controller/         # Business logic and service coordination
+│   │               ├── 📁 model/              # Data models (POJOs)
+│   │               ├── 📁 pages/              # Page classes (UI locators & actions)
+│   │               ├── 📁 utils/              # Utility classes (e.g., driver factory)
+│   │               
+│   │
+│   ├── 📁 test/
+│   │   └── 📁 java/
+│   │       └── org/
+│   │           └── example/
+│   │               ├── 📁 UITests/            # UI automation tests
+│   │               ├── 📁 APITests/           # API test classes
+│   │               └── 📁 SmokeTests/         # Critical path tests (UI/API)
+│
+
+│
+├── 📄 pom.xml                                 # Maven project config and dependencies
+├── 📄 README.md                               # Project description, setup, and usage
+└── 📄 ReTRO.md                                 # Retrospective notes, bugs, and improvements
+
+```
 ## 🛠 Technologies Used
 
 - **Java 21**
