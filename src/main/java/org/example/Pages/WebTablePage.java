@@ -73,15 +73,18 @@ public class WebTablePage {
         List<WebElement> rows = driver.findElements(By.cssSelector("div.rt-tr-group"));
 
         // If the table shows a "No rows found" message, return false
-        boolean foundMatchingRow = false;
+        boolean foundMatchingRow = true;
 
         for (WebElement row : rows) {
             WebElement actualRow = row.findElement(By.cssSelector("div.rt-tr"));
-            if (isPadRow(actualRow)) break;
+            if (isPadRow(actualRow)){
+                foundMatchingRow =false;
+                 break;
+            }
 
             String rowText = row.getText().toLowerCase();
             if (rowText.contains(query.toLowerCase())) {
-                foundMatchingRow = true;
+                foundMatchingRow =false;
                 break;
             }
         }
