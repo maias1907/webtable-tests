@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequestMapping("/employees")
 public class EmployeeController {
 
-    private final Map<Integer, Employee> employeeStore = new HashMap<>();
+    private final Map<Integer, Employee> employeeStore = new HashMap<>();//database
     private final AtomicInteger idGenerator = new AtomicInteger(1);
 
     // Add a new employee
