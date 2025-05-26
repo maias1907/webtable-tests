@@ -24,12 +24,24 @@
 - Using `@BeforeEach` and `@AfterEach` in JUnit 5 to keep tests isolated and consistent.
 - How to structure a Maven project properly for automated testing.
 
+### 🐞 Bug Report: Duplicate Emails Allowed
+
+- **Description:** The application allows adding multiple records with the same email address.
+- **Impact:** This can cause incorrect behavior when editing or deleting users.
+- **Steps to Reproduce:**
+  1. Add a record with email `example@mail.com`
+  2. Add another record with the same email
+- **Severity:** High
+- **Priority:** High
+- **Suggested Fix:** Add validation logic to prevent duplicate email entries during record creation.
+
+
 ## 🔄 What I'd Improve Next Time
 
-- Add full HTML test reports (e.g., using Allure or ExtentReports) to make test results more readable.
-- Extract test data to external files (like JSON or CSV) for better scalability and data-driven testing.
-- Write negative test cases and validation for edge cases (e.g., searching with empty strings, invalid emails).
-- Add CI integration using GitHub Actions for automated test runs on each push.
+- ✅ Add full HTML test reports (e.g., using Allure or ExtentReports) to make results easier to read.
+- ✅ Extract test data to external files (like JSON or CSV) for better scalability and data-driven testing.
+- ✅ Add CI integration using GitHub Actions for automated test runs on each push.
+- ✅ Improve error handling for duplicate or invalid input (e.g., duplicate emails).
 
 ---
 

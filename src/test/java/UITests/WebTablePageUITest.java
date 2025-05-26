@@ -94,8 +94,40 @@ public class WebTablePageUITest {
         found = webPage.searchRecord("' OR '1'='1");
         assertFalse(found, "Search should be safe and not return results for malicious input");
     }
+    @Test
+    @Order(10)
+    public void partialSearchTest() {
+        boolean found = webPage.searchRecord("Kie");
+        assertTrue(found);
+    }
+    @Test
+    @Order(11)
+    public void caseInsensitiveSearchTest() {
+        boolean found = webPage.searchRecord("Kierra");
+        boolean foundLower = webPage.searchRecord("kierra");
+        assertTrue(found && foundLower);
+    }
 
+    @Test
+    @Order(12)
+    public void duplicateEmailTest() {
+        webPage.addNewRecord("John", "Doe", "30", "5000", "duplicate@example.com", "IT");
+        boolean added = webPage.addNewRecord("Jane", "Doe", "28", "6000", "duplicate@example.com", "HR");
+        assertFalse(added, "Duplicate emails should not be allowed");
+    }
+    @Test
+    @Order(13)
+    public void addRecordAgeZeroTest() {
+        boolean added = webPage.addNewRecord("Baby", "Zero", "0", "100", "baby.zero@example.com", "Newborn");
+        assertTrue(added, "Age zero should be valid");
+    }
+    @Test
+    @Order(14)
+    public void resetSearchFilterTest() {
+       boolean search=webPage.searchRecord("NonExistentName");
+        assertEquals(0, webPage.getRecordCount(), "No records should be found");
 
+    }
 
     @AfterEach
     public void teardown() {

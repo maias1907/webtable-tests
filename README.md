@@ -47,7 +47,6 @@ This project contains automated UI tests for the WebTables page using Selenium W
 - ✅ **Test Case Scripts** (for Add, Edit, Delete, and Search functionality)
 - ✅ **README.md** with setup and execution instructions
 - ✅ **Test Execution Report** (generated via  Allure )
-- ✅ **Issue Log** (tracked via GitHub Issues or internal document)
 
 ---
 
@@ -142,6 +141,20 @@ Testing will be considered complete when the following conditions are met:
 
 
 ## 📊 How to Open Allure Report
+### Installation
+https://allurereport.org/docs/install/
+
+## Getting started with Allure JUnit 5
+#### First, add Allure dependencies to the pom.xml
+```bash
+  <dependency>
+   <groupId>io.qameta.allure</groupId>
+   <artifactId>allure-junit5</artifactId>
+   <version>2.29.1</version>
+   <scope>test</scope>
+</dependency>
+ ```
+
 
 Make sure to run your tests first so that Allure can generate the result files:
 

@@ -25,7 +25,7 @@ public class WebTablePage {
     }
 
     public boolean addNewRecord(String firstName, String lastName, String age, String salary, String email, String department) {
-        // Basic input validation before adding
+
         if (firstName == null || firstName.trim().isEmpty()) return false;
         if (email == null || email.trim().isEmpty() || !email.contains("@")) return false;
         if (age != null && !age.matches("\\d+")) return false; // age should be digits only
@@ -34,7 +34,6 @@ public class WebTablePage {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(addNewRecordButton));
         addButton.click();
-
         driver.findElement(firstNameInput).sendKeys(firstName);
         driver.findElement(lastNameInput).sendKeys(lastName);
         driver.findElement(ageInput).sendKeys(age);
@@ -49,13 +48,15 @@ public class WebTablePage {
             e.printStackTrace();
         }
 
+
         // Verify the record appears in the table by email (assuming email unique)
         scrollToTable();
         return isEmailPresent(email);
     }
+
     public boolean isPadRow(WebElement row) {
         String classAttr = row.getAttribute("class");
-        return classAttr != null && classAttr.contains("-padRow") ;
+        return classAttr != null && classAttr.contains("-padRow");
     }
 
     public boolean searchRecord(String query) {
@@ -162,8 +163,34 @@ public class WebTablePage {
 
     private void scrollToTable() {
 
-            Actions actions = new Actions(driver);
-            actions.sendKeys(Keys.PAGE_DOWN).perform();
+        Actions actions = new Actions(driver);
+        actions.sendKeys(Keys.PAGE_DOWN).perform();
+    }
+
+    public int getRecordCount() {
+        List<WebElement> allRows = driver.findElements(By.cssSelector("div.rt-tbody .rt-tr-group"));
+
+        int validRowCount = 0;
+        for (WebElement row : allRows) {
+
+            if (row.getText().trim().isEmpty()) {
+                continue; // skip empty rows
+            }
+
+            if (row.getText().contains("No rows found")) {
+                continue; // skip placeholder row
+            } else {
+
+                validRowCount++;
+            }
+
+
+        }
+        return validRowCount;
     }
 }
+
+
+
+
 
