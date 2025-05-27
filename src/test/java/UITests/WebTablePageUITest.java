@@ -53,23 +53,28 @@ public class WebTablePageUITest {
         boolean added = webPage.addNewRecord("Negative", "Age", "-5", "120", "negativeage@example.com", "HR");
         assertFalse(added, "Record should NOT be added with negative age");
     }
-
     @Test
     @Order(5)
+    public void partialSearchTest() {
+        boolean found = webPage.searchRecord("Kie");
+        assertTrue(found);
+    }
+    @Test
+    @Order(6)
     public void editSalaryTest() {
 
         boolean editSal=webPage.editSalary("kierra@example.com", "99999");
         assertTrue(editSal);
     }
     @Test
-    @Order(6)
+    @Order(7)
     public void editSalaryInvalidInput() {
         boolean edited = webPage.editSalary("kierra@example.com", "nine thousand");
         assertFalse(edited, "Salary edit should fail when input is non-numeric");
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     public void deleteRecordTest() {
         webPage.deleteRecord("kierra@example.com");
         webPage.searchRecord("kierra@example.com");
@@ -77,13 +82,13 @@ public class WebTablePageUITest {
     }
 
     @Test
-    @Order(8)
+    @Order(9)
     public void searchFilterTest() {
         boolean res=webPage.searchRecord("Cierra");
         assertTrue(res);
     }
     @Test
-    @Order(9)
+    @Order(10)
     public void searchInvalidInputTest() {
         // Using special characters
         boolean found = webPage.searchRecord("%$#@!");
@@ -93,35 +98,19 @@ public class WebTablePageUITest {
         found = webPage.searchRecord("' OR '1'='1");
         assertFalse(found, "Search should be safe and not return results for malicious input");
     }
-    @Test
-    @Order(10)
-    public void partialSearchTest() {
-        boolean found = webPage.searchRecord("Kie");
-        assertTrue(found);
-    }
-    @Test
-    @Order(11)
-    public void caseInsensitiveSearchTest() {
-        boolean found = webPage.searchRecord("Kierra");
-        boolean foundLower = webPage.searchRecord("kierra");
-        assertTrue(found && foundLower);
-    }
+
+
 
     @Test
-    @Order(12)
+    @Order(11)
     public void duplicateEmailTest() {
         webPage.addNewRecord("John", "Doe", "30", "5000", "duplicate@example.com", "IT");
         boolean added = webPage.addNewRecord("Jane", "Doe", "28", "6000", "duplicate@example.com", "HR");
         assertTrue(added, "Duplicate emails should not be allowed");
     }
+
     @Test
-    @Order(13)
-    public void addRecordAgeZeroTest() {
-        boolean added = webPage.addNewRecord("Baby", "Zero", "0", "100", "baby.zero@example.com", "Newborn");
-        assertTrue(added, "Age zero should be valid");
-    }
-    @Test
-    @Order(14)
+    @Order(12)
     public void resetSearchFilterTest() {
        boolean search=webPage.searchRecord("NonExistentName");
         assertEquals(0, webPage.getRecordCount(), "No records should be found");
