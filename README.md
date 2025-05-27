@@ -190,7 +190,7 @@ Make sure to run your tests first so that Allure can generate the result files:
 
 1. **Run Your Tests**
    ```bash
-   mvn clean compile
+   mvn test
 2. **Generate  the Report**
    ```bash
    allure generate
